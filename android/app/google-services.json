@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "217843377901",
+    "project_id": "dev2-sui",
+    "storage_bucket": "dev2-sui.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217843377901:android:3bbdad162d2c476f160ee4",
+        "android_client_info": {
+          "package_name": "com.dev2.sui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJqtU71mw9ZBJsdGcm_Q6d7ncLiGe7U-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
