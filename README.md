@@ -2,6 +2,9 @@
 
 Version 1.0 desarollado por DeV2.0
 
+
+
+
 ## Lenguajes y Framwork
 
 Este proyecto utiliza
@@ -22,3 +25,11 @@ Este proyecto utiliza
    - [Test]() Rama de pruebas
 
    Garantizamos buenas practicas en nuestro codigo como el envio de commits pequeños y frecuentes, un historial claro y legible ademas un correcto uso de las diferentes ramas.
+
+## Backend
+ ### Tecnologias
+ - [Firebase]() Proporciona una base de datos en tiempo real y almacenamiento en la nube, facilitando la sincronización de datos entre dispositivos.
+- [Azure Health Bot]() Proporciona funciones inteligentes basadas en IA y recomendaciones personalizadas.
+
+## NOTAS
+Garantizamos el uso de bunas practicas de desarollo para tener un codigo limpio y lgible, usando principios SOLID, haciendo pruebas unitarias, manejando correctamente la parte logica y la integracion con servicios de terceros, asegurando la escalabilidad y seguridad del codigo.
