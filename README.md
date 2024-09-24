@@ -9,7 +9,7 @@ Version 1.0 desarollado por DeV2.0
 
 Este proyecto utiliza
 
-- [Flutter](https://docs.flutter.dev/get-started) Utilizando Dart como lnguaje de programacion, Escogimos este software debido a la facilidad del dsarollo multi-plataforma.
+- [Flutter](https://docs.flutter.dev/get-started) Utilizando Dart como lnguaje de programacion, Escogimos este debido a la facilidad del dsarollo multi-plataforma.
 - [VsCode](https://code.visualstudio.com/) Como IDE, debido a su ligereza y alta configurabilidad, ademas de su integracion con con flutter y demas extensiones.
 
 ## En cuanto a las bibliotecas
