@@ -3,6 +3,18 @@
         android:label="sui"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+
+<!-- NECESARIO PARA FIREBASE-->
+   <meta-data
+       android:name="com.google.firebase.messaging.default_notification_channel_id"
+       android:value="high_importance_channel"/>
+   <meta-data
+       android:name="com.google.firebase.analytics.FirebaseAnalyticsService"
+       android:value="true"/>
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
