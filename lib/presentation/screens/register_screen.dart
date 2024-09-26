@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../auth_service.dart';
+import '../../auth_service.dart'; // Asegúrate de que la ruta sea correcta
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -13,11 +13,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
 
+  void _register() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _loading = true);
+      AuthService auth = Provider.of<AuthService>(context, listen: false);
+      try {
+        await auth.createUserWithEmailAndPassword(
+            _emailController.text, _passwordController.text);
+        Navigator.of(context).pushReplacementNamed('/home');
+      } catch (e) {
+        setState(() => _loading = false);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Error al crear la cuenta. Intenta de nuevo.'),
+        ));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registrarse'),
+        title: Text('Registro'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,25 +61,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               _loading
                   ? CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() => _loading = true);
-                          AuthService auth = Provider.of<AuthService>(context, listen: false);
-                          var user = await auth.registerWithEmailAndPassword(
-                              _emailController.text, _passwordController.text);
-                          if (user != null) {
-                            // Redirige a la pantalla principal después de registrarse
-                            Navigator.of(context).pushReplacementNamed('/home');
-                          } else {
-                            setState(() => _loading = false);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Error al registrarse'),
-                            ));
-                          }
-                        }
-                      },
+                      onPressed: _register,
                       child: Text('Registrarse'),
                     ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Vuelve a la pantalla de login
+                },
+                child: Text('¿Ya tienes una cuenta? Inicia sesión'),
+              ),
             ],
           ),
         ),
