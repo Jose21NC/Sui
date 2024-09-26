@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../auth_service.dart'; // Sube dos niveles
+import '../../auth_service.dart'; // Para subir dos niveles
 import 'register_screen.dart'; // Redirigiremos al registro si el usuario no tiene cuenta
 
 class LoginScreen extends StatefulWidget {
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           } else {
                             setState(() => _loading = false);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Error al iniciar sesión'),
+                              content: Text('Error al iniciar sesión. Verifica tus credenciales.'),
                             ));
                           }
                         }
