@@ -32,4 +32,4 @@ Este proyecto utiliza
 - [Azure Health Bot]() Proporciona funciones inteligentes basadas en IA y recomendaciones personalizadas.
 
 ## NOTAS
-Garantizamos el uso de bunas practicas de desarollo para tener un codigo limpio y lgible, usando principios SOLID, haciendo pruebas unitarias, manejando correctamente la parte logica y la integracion con servicios de terceros, asegurando la escalabilidad y seguridad del codigo.
+Garantizamos el uso de bunas practicas de desarollo para tener un codigo limpio y lgible, usando principios SOLID, haciendo pruebas unitarias, manejando correctamente la parte logica y la integracion con servicios de terceros, asegurando la escalabilidad y seguridad del codigo..
