@@ -40,4 +40,6 @@ class AuthService {
   Stream<User?> get user {
     return _auth.authStateChanges();
   }
+
+  createUserWithEmailAndPassword(String text, String text2) {}
 }

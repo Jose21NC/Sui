@@ -18,7 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() => _loading = true);
       AuthService auth = Provider.of<AuthService>(context, listen: false);
       try {
-        await auth.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
             _emailController.text, _passwordController.text);
         Navigator.of(context).pushReplacementNamed('/home');
       } catch (e) {
