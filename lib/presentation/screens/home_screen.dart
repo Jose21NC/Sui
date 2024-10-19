@@ -1,53 +1,57 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  static List<Widget> _pages = <Widget>[
-    // Aquí podrías agregar las diferentes pantallas para las secciones
-    Center(child: Text('Inicio', style: TextStyle(fontSize: 30))),
-    Center(child: Text('Actividad Física', style: TextStyle(fontSize: 30))),
-    Center(child: Text('Perfil', style: TextStyle(fontSize: 30))),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sui - Tu Salud'),
+        title: const Text('Pantalla de Inicio'),
+        backgroundColor: Colors.blueGrey[700], // Color del AppBar
       ),
       body: Center(
-        child: _pages.elementAt(_selectedIndex), // Muestra la página seleccionada
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.directions_run),
-            label: 'Actividad',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        onTap: _onItemTapped,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Título de bienvenida
+            const Text(
+              '¡Bienvenido a Sui!',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Imagen de bienvenida o logo
+            Image.network(
+              'https://via.placeholder.com/150',
+              width: 150,
+              height: 150,
+            ),
+            const SizedBox(height: 30),
+
+            // Botón de salir
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 50.0,
+                  vertical: 15.0,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                backgroundColor: Colors.teal[300],
+              ),
+              onPressed: () {
+                // Lógica para cerrar sesión o navegar
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar Sesión'),
+            ),
+          ],
+        ),
       ),
     );
   }

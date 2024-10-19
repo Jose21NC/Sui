@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../auth_service.dart'; // Para subir dos niveles
-import 'register_screen.dart'; // Redirigiremos al registro si el usuario no tiene cuenta
+import 'package:sui/presentation/screens/register_screen.dart';
+import 'home_screen.dart'; // Asegúrate de importar la pantalla principal
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -20,83 +18,101 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[900], // Fondo oscuro
       appBar: AppBar(
         title: const Text('Iniciar Sesión'),
+        backgroundColor: Colors.blueGrey[700], // Color del AppBar
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Correo electrónico'),
-                validator: (value) => value!.isEmpty ? 'Ingresa un correo válido' : null,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Contraseña'),
-                obscureText: true,
-                validator: (value) =>
-                    value!.length < 6 ? 'La contraseña debe tener al menos 6 caracteres' : null,
-              ),
-              const SizedBox(height: 32),
-              _loading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() => _loading = true);
-                          AuthService auth = Provider.of<AuthService>(context, listen: false);
-                          try {
-                            var user = await auth.signInWithEmailAndPassword(
-                                _emailController.text, _passwordController.text);
-                            if (user != null) {
-                              // Redirige a la pantalla principal si el inicio de sesión es exitoso
-                              // ignore: use_build_context_synchronously
-                              Navigator.of(context).pushReplacementNamed('/home');
-                            } else {
-                              setState(() => _loading = false);
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content: Text('Error al iniciar sesión. Verifica tus credenciales.'),
-                              ));
-                            }
-                          } catch (e) {
-                            setState(() => _loading = false);
-                            // Manejo de errores específico
-                            if (e is SomeSpecificAuthException) {
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content: Text('Credenciales incorrectas.'),
-                              ));
-                            } else if (e is NetworkException) {
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content: Text('Error de conexión. Por favor intenta más tarde.'),
-                              ));
-                            } else {
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content: Text('Ocurrió un error inesperado.'),
-                              ));
-                            }
-                          }
-                        }
-                      },
-                      child: const Text('Iniciar Sesión'),
+        child: Center(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Título estilizado
+                const Text(
+                  'Bienvenido a Sui',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                // Campo de correo electrónico
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Correo electrónico',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => RegisterScreen()));
-                },
-                child: const Text('¿No tienes una cuenta? Regístrate'),
-              ),
-            ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Campo de contraseña
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Contraseña',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 32),
+
+                // Botón de iniciar sesión con animación de carga
+                _loading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 50.0,
+                            vertical: 15.0,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          backgroundColor: Colors.teal[300],
+                        ),
+                        onPressed: () async {
+                          setState(() => _loading = true);
+
+                          // Simulamos la conexión al servidor con un tiempo de espera
+                          await Future.delayed(const Duration(seconds: 2));
+
+                          // Redirigimos a la pantalla de inicio
+                          // ignore: use_build_context_synchronously
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => HomeScreen()),
+                          );
+                        },
+                        child: const Text('Iniciar Sesión'),
+                      ),
+
+                // Botón de registro
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => RegisterScreen()));
+                  },
+                  child: const Text(
+                    '¿No tienes una cuenta? Regístrate',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -109,10 +125,4 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
-}
-
-class NetworkException {
-}
-
-class SomeSpecificAuthException {
 }
