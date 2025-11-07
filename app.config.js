@@ -1,3 +1,14 @@
+import { createRequire } from 'module';
+
+// Cargar secretos locales opcionales (no versionados)
+let LOCAL_SECRETS = {};
+try {
+  const requireLocal = createRequire(import.meta.url);
+  LOCAL_SECRETS = requireLocal('./local.secrets.json');
+} catch (e) {
+  // archivo opcional
+}
+
 export default {
   name: "Sui",
   slug: "sui-health",
@@ -18,6 +29,8 @@ export default {
     output: "single"
   },
   extra: {
-    enableHealthConnect: false
+    enableHealthConnect: false,
+    // Prioridad: variable de entorno pública de Expo > archivo local.secrets.json (no versionado)
+    GEMINI_API_KEY: process.env.EXPO_PUBLIC_GEMINI_API_KEY || LOCAL_SECRETS.GEMINI_API_KEY
   }
 };
