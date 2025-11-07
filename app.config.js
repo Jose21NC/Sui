@@ -1,15 +1,14 @@
-import { createRequire } from 'module';
-
-// Cargar secretos locales opcionales (no versionados)
+// CommonJS para compatibilidad con Expo CLI en Vercel
+// Cargar secretos locales opcionales (no versionados) de forma segura
 let LOCAL_SECRETS = {};
 try {
-  const requireLocal = createRequire(import.meta.url);
-  LOCAL_SECRETS = requireLocal('./local.secrets.json');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  LOCAL_SECRETS = require('./local.secrets.json');
 } catch (e) {
   // archivo opcional
 }
 
-export default {
+module.exports = {
   name: "Sui",
   slug: "sui-health",
   version: "0.1.0",
