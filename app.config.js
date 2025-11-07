@@ -1,35 +1,16 @@
-// CommonJS para compatibilidad con Expo CLI en Vercel
-// Cargar secretos locales opcionales (no versionados) de forma segura
-let LOCAL_SECRETS = {};
+// Simplificado: usar app.json para configuración principal.
+// Este archivo sólo agrega dinámicamente la clave si existe.
+let GEMINI_KEY = undefined;
 try {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  LOCAL_SECRETS = require('./local.secrets.json');
-} catch (e) {
-  // archivo opcional
-}
+  const local = require('./local.secrets.json');
+  GEMINI_KEY = local.GEMINI_API_KEY;
+} catch (e) { /* opcional */ }
 
-module.exports = {
-  name: "Sui",
-  slug: "sui-health",
-  version: "0.1.0",
-  orientation: "portrait",
-  scheme: "sui",
-  userInterfaceStyle: "automatic",
-  platforms: ["android", "web"],
-  plugins: [
-    'expo-font'
-  ],
-  android: {
-    package: "com.sui.health",
-    permissions: []
-  },
-  web: {
-    bundler: "metro",
-    output: "single"
-  },
+export default ({ config }) => ({
+  ...config,
   extra: {
-    enableHealthConnect: false,
-    // Prioridad: variable de entorno pública de Expo > archivo local.secrets.json (no versionado)
-    GEMINI_API_KEY: process.env.EXPO_PUBLIC_GEMINI_API_KEY || LOCAL_SECRETS.GEMINI_API_KEY
+    ...config.extra,
+    GEMINI_API_KEY: process.env.EXPO_PUBLIC_GEMINI_API_KEY || GEMINI_KEY || config.extra?.GEMINI_API_KEY,
   }
-};
+});

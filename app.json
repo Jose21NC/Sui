@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Sui",
+    "slug": "sui-health",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "sui",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["android", "web"],
+    "plugins": [
+      "expo-font"
+    ],
+    "android": {
+      "package": "com.sui.health",
+      "permissions": []
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "extra": {
+      "enableHealthConnect": false
+    }
+  }
+}
