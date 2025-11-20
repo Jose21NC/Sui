@@ -20,12 +20,13 @@ export function generateMetrics(previous?: MetricSnapshot): MetricSnapshot {
   };
 
   // Simulaciones simples incrementales
-  const stepsInc = randRange(50, 200);
-  const caloriesInc = randRange(5, 20);
-  const waterInc = Math.random() < 0.1 ? randRange(50, 150) : 0; // ocasional
-  const heartRateVar = clamp(base.heartRate + randRange(-3, 3), 55, 110);
+  // Variaciones más sutiles para simular smartwatch en tiempo real
+  const stepsInc = randRange(5, 10);
+  const caloriesInc = randRange(1, 6);
+  const waterInc = Math.random() < 0.05 ? randRange(20, 60) : 0; // ocasional y sutil
+  const heartRateVar = clamp(base.heartRate + randRange(-1, 1), 55, 110);
   const distanceIncKm = stepsInc / 1300; // ~1300 pasos por km aprox.
-  const uvIndexNow = clamp(Math.round((base.uvIndex ?? 0) + randRange(-1, 2)), 0, 11);
+  const uvIndexNow = clamp(Math.round((base.uvIndex ?? 0) + randRange(-1, 1)), 0, 11);
   // Ingesta calórica: incrementos realistas en desayuno, comida, cena
   const hour = new Date().getHours();
   let intakeInc = 0;
@@ -36,9 +37,9 @@ export function generateMetrics(previous?: MetricSnapshot): MetricSnapshot {
 
   // Simulación realista de tiempo de pantalla: más en tardes/noches, menos en mañanas
   let screenTimeInc = 0;
-  if (hour >= 18 && hour <= 23) screenTimeInc = randRange(15, 30);
-  else if (hour >= 8 && hour < 18) screenTimeInc = randRange(5, 15);
-  else screenTimeInc = randRange(0, 5);
+  if (hour >= 18 && hour <= 23) screenTimeInc = randRange(6, 12);
+  else if (hour >= 8 && hour < 18) screenTimeInc = randRange(2, 6);
+  else screenTimeInc = randRange(0, 3);
 
   // Simulación de nuevos datos
   // Simulación de sueño: solo sumar al despertar (7am), calidad variable
@@ -67,7 +68,7 @@ export function generateMetrics(previous?: MetricSnapshot): MetricSnapshot {
   const glucoseVar = clamp((base.glucose ?? 90) + randRange(-3, 3), 70, 130);
   const activityInc = Math.random() < 0.5 ? randRange(1, 5) : 0;
 
-  return {
+  const result: MetricSnapshot = {
     timestamp: Date.now(),
     steps: base.steps + stepsInc,
     heartRate: heartRateVar,
@@ -84,6 +85,12 @@ export function generateMetrics(previous?: MetricSnapshot): MetricSnapshot {
     glucose: glucoseVar,
     activityMinutes: (base.activityMinutes ?? 0) + activityInc,
   };
+  // Override de sueño para el día actual solicitado (20 Nov 2025) para mantener 4.2h constantes
+  const todayISO = new Date().toISOString().slice(0, 10);
+  if (todayISO === '2025-11-20') {
+    result.sleepHours = 4.2; // valor fijo
+  }
+  return result;
 }
 
 function randRange(min: number, max: number) {
@@ -118,7 +125,7 @@ export function generateSnapshotForDate(dateISO: string): MetricSnapshot {
   const rng = mulberry32(hash32(dateISO));
   const steps = seeded(2000, 12000, rng);
   const heart = seeded(55, 105, rng);
-  const sleepH = seeded(4, 9, rng);
+  let sleepH = seeded(4, 9, rng);
   const burned = seeded(200, 900, rng);
   const water = seeded(500, 3500, rng);
   const dist = +(steps / 1300);
@@ -139,6 +146,8 @@ export function generateSnapshotForDate(dateISO: string): MetricSnapshot {
   const bpDia = seeded(70, 90, rng);
   const gluc = seeded(70, 130, rng);
   const actMin = seeded(0, 90, rng);
+  // Override específico pedido: 2025-11-20 dormir 4.2 horas
+  if (dateISO === '2025-11-20') sleepH = 4.2;
   return {
     timestamp: new Date(dateISO + 'T12:00:00').getTime(),
     steps,

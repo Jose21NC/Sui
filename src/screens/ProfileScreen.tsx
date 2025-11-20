@@ -39,7 +39,8 @@ const ProfileScreen: React.FC = () => {
     Animated.timing(sectionAnim, { toValue: 1, duration: 220, easing: Easing.out(Easing.quad), useNativeDriver: true }).start();
   }, [editing]);
 
-  const [objective, setObjective] = useState<Objective | undefined>(selected);
+  // Al editar perfil, no preseleccionar objetivo para evitar cambios accidentales
+  const [objective, setObjective] = useState<Objective | undefined>(undefined);
   const [duration, setDuration] = useState<number>(durationDays || 30);
 
   const onSave = async () => {

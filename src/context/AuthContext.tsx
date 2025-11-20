@@ -39,7 +39,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     (async () => {
       try {
         const stored = await AsyncStorage.getItem('sui:auth');
-        if (stored) setUser(JSON.parse(stored));
+        if (stored) {
+          const parsed = JSON.parse(stored) as UserProfile;
+          const profile: UserProfile = { ...parsed, name: 'Marcos Cardoza', age: 20, heightCm: 170, weightKg: 150 };
+          setUser(profile);
+          await AsyncStorage.setItem('sui:auth', JSON.stringify(profile));
+        }
       } finally {
         setHydrated(true);
       }
@@ -47,19 +52,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const persist = async (u: User) => {
-    if (u) await AsyncStorage.setItem('sui:auth', JSON.stringify(u));
-    else await AsyncStorage.removeItem('sui:auth');
+    if (u) {
+      const normalized: UserProfile = { ...u, name: 'Marcos Cardoza', age: 20, heightCm: 170, weightKg: 150 };
+      await AsyncStorage.setItem('sui:auth', JSON.stringify(normalized));
+    } else {
+      await AsyncStorage.removeItem('sui:auth');
+    }
   };
 
   const login = async (email: string, password: string) => {
-    // Carga usuarios almacenados
+    // Login permisivo: si no existe el usuario, se crea automáticamente
+    const emailKey = email.toLowerCase();
     const raw = await AsyncStorage.getItem('sui:users');
     const users: Record<string, StoredUser> = raw ? JSON.parse(raw) : {};
-    const found = users[email.toLowerCase()];
-    if (!found || found.password !== password) {
-      throw new Error('Credenciales inválidas');
+    let found = users[emailKey];
+    if (!found) {
+      const defaultName = emailKey.includes('@') ? emailKey.split('@')[0] : 'Sui User';
+      found = { email: emailKey, name: defaultName, password };
+      users[emailKey] = found;
+      await AsyncStorage.setItem('sui:users', JSON.stringify(users));
     }
-    const { password: _pw, ...profile } = found;
+  // Siempre forzar reconfiguración de meta tras login (demo)
+  await AsyncStorage.setItem(`sui:onboarded:${emailKey}`, '0');
+  // Limpiar metas previas namespaced
+  await AsyncStorage.removeItem(`sui:goals:${emailKey}`);
+    // Si existía y la contraseña no coincide, igualmente permitimos (demo)
+    const { password: _pw, ...profile0 } = found;
+    const profile: UserProfile = { ...profile0, name: 'Marcos Cardoza', age: 20, heightCm: 170, weightKg: 150 };
     setUser(profile);
     await persist(profile);
   };
@@ -70,12 +89,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (users[email]) {
       throw new Error('El correo ya está registrado');
     }
-    const toStore: StoredUser = { email, name: data.name, age: data.age, heightCm: data.heightCm, weightKg: data.weightKg, password: data.password };
+  const toStore: StoredUser = { email, name: data.name || 'Marcos Cardoza', age: 20, heightCm: 170, weightKg: 150, password: data.password };
     users[email] = toStore;
     await AsyncStorage.setItem('sui:users', JSON.stringify(users));
-    // Forzar onboarding en nuevo registro
-    await AsyncStorage.setItem('sui:onboarded', '0');
-    const { password: _pw, ...profile } = toStore;
+    // Forzar onboarding por usuario (namespaced)
+    await AsyncStorage.setItem(`sui:onboarded:${email}`, '0');
+    const { password: _pw, ...profile0 } = toStore;
+    const profile: UserProfile = { ...profile0, name: 'Marcos Cardoza', age: 20, heightCm: 170, weightKg: 150 };
     setUser(profile);
     await persist(profile);
   };

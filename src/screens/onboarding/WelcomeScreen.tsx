@@ -12,7 +12,7 @@ const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
     <View style={[styles.container, { backgroundColor: t.bg }]}>      
       <Text style={[styles.title, { color: t.text }]}>Bienvenido a Sui</Text>
       <Text style={[styles.desc, { color: t.textDim }]}>Tu asistente para hábitos y salud. Configuraremos tus metas para ayudarte día a día.</Text>
-      <TouchableOpacity style={[styles.btn, { backgroundColor: t.primary }]} onPress={() => navigation.replace('Objective')}>
+      <TouchableOpacity style={[styles.btn, { backgroundColor: t.primary }]} onPress={() => navigation.replace('GoalIntro')}>
         <Text style={styles.btnText}>Comenzar</Text>
       </TouchableOpacity>
     </View>

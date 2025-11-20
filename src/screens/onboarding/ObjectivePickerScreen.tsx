@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { PREDEFINED_OBJECTIVES, Objective, useGoals } from '../../context/GoalsContext';
 import { useTheme } from '../../theme/ThemeContext';
+// @deprecated: Pantalla antigua, mantenida por compatibilidad. No usada en el nuevo flujo.
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { OnboardingParamList } from '../../navigation/OnboardingStack';
 
-type Props = NativeStackScreenProps<OnboardingParamList, 'Objective'>;
+type Props = any;
 
 const DURATIONS = [14, 30, 60];
 
@@ -16,9 +17,9 @@ const ObjectivePickerScreen: React.FC<Props> = ({ navigation }) => {
   const [duration, setDuration] = useState<number>(30);
 
   const confirm = async () => {
-    if (!selected) return;
-    await chooseObjective(selected, duration);
-    navigation.navigate('Preferences');
+  if (!selected) return;
+  await chooseObjective(selected, duration);
+  navigation.navigate('GoalIntro' as any);
   };
 
   return (

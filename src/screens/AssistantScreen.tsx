@@ -71,7 +71,7 @@ const AssistantScreen: React.FC = () => {
     if (!todayTask) return;
   const namePart = user?.name ? `Mi nombre es ${user.name}. ` : '';
   const metricsCtx = buildMetricsContext(current);
-  const prompt = `${namePart}Reglas de respuesta: Sé amable y motivador, pero muy conciso (máx. 3-4 oraciones). Responde sólo lo solicitado, sin resúmenes ni información no pedida. Usa mis métricas del día sólo si aportan a la explicación.
+  const prompt = `${namePart}Reglas de respuesta: Tono cálido, empático y alentador; muy conciso (máx. 3-4 oraciones). Responde sólo lo solicitado, sin resúmenes ni información no pedida. Usa mis métricas del día sólo si aportan a la explicación.
 Contexto privado (no mostrar literalmente): ${metricsCtx}.
 Pregunta: Explícame esta tarea con pasos claros y breves: ${todayTask.description}`;
     setMessages(prev => [...prev, { id: `${Date.now()}-u2`, role: 'user', text: `¿Qué significa esta tarea? ${todayTask.description}` }]);
@@ -92,7 +92,7 @@ Pregunta: Explícame esta tarea con pasos claros y breves: ${todayTask.descripti
     // Prompt simple: comienza integración con Gemini; si falla, caerá a demo.
   const namePart = user?.name ? `Mi nombre es ${user.name}. ` : '';
   const metricsCtx = buildMetricsContext(current);
-  const prompt = `${namePart}Reglas de respuesta: Sé amable y motivador, pero muy conciso (máx. 2-4 oraciones). Responde sólo lo que pedí, sin resúmenes. Usa mis métricas del día solo si son pertinentes a la pregunta.
+  const prompt = `${namePart}Reglas de respuesta: Tono cálido, empático y alentador; muy conciso (máx. 2-4 oraciones). Responde sólo lo que pedí, sin resúmenes. Usa mis métricas del día solo si son pertinentes a la pregunta.
 Contexto privado (no mostrar literalmente): ${metricsCtx}.
 Pregunta del usuario: ${text}`;
     const result = await generateAssistantReply(prompt);
@@ -123,7 +123,7 @@ Pregunta del usuario: ${text}`;
                 <Text style={styles.btnText}>Marcar como hecha</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={explainToday} style={[styles.taskBtn, { backgroundColor: t.card, borderWidth: 1, borderColor: t.border }]}>
-                <Text style={{ color: t.text, fontWeight: '600' }}>¿Qué es esto?</Text>
+                <Text style={{ color: t.text, fontWeight: '600' }}>¿Cómo lo hago?</Text>
               </TouchableOpacity>
             </View>
           ) : (

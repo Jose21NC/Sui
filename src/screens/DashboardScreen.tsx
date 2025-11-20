@@ -271,7 +271,7 @@ const DashboardScreen: React.FC = () => {
             {tasks.find(t => t.date === new Date().toISOString().slice(0,10))?.description}
           </Text>
           <TouchableOpacity onPress={() => onExplainTask(tasks.find(t => t.date === new Date().toISOString().slice(0,10))!.description)} style={{ alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 8, borderRadius: 8, borderWidth: 1, borderColor: t.border }}>
-            <Text style={{ color: t.text }}>¿Qué es esto?</Text>
+            <Text style={{ color: t.text }}>¿Cómo lo hago?</Text>
           </TouchableOpacity>
         </View>
       )}

@@ -45,7 +45,7 @@ function MainTabs() {
 export default function RootNavigator() {
   const { onboarded } = useAppFlow();
   const { hydrated: authHydrated, user } = useAuth();
-  const { hydrated: goalsHydrated } = useGoals();
+  const { hydrated: goalsHydrated, selected } = useGoals();
   const theme = useTheme();
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => { setHydrated(true); }, []);
@@ -53,7 +53,8 @@ export default function RootNavigator() {
   if (!hydrated || !authHydrated || !goalsHydrated) return <View style={{ flex:1, alignItems:'center', justifyContent:'center' }}><ActivityIndicator /></View>;
 
   if (!user) return <AuthStack />;
-  if (!onboarded) return <OnboardingStack />;
+  // Muestra el onboarding si no se ha completado o aún no hay una meta seleccionada
+  if (!onboarded || !selected) return <OnboardingStack />;
 
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false, animation: 'fade_from_bottom' }}>

@@ -1,0 +1,13 @@
+# Configuración Netlify para Expo Web (estático)
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# SPA fallback para rutas del navegador
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

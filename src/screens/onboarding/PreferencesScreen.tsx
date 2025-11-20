@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+// @deprecated en nuevo flujo; se mantiene por compatibilidad
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { OnboardingParamList } from '../../navigation/OnboardingStack';
 import { useTheme } from '../../theme/ThemeContext';
 
-type Props = NativeStackScreenProps<OnboardingParamList, 'Preferences'>;
+type Props = any;
 
 const PreferencesScreen: React.FC<Props> = ({ navigation }) => {
   const t = useTheme();

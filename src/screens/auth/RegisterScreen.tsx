@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Animated, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Animated, Image, ScrollView } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthParamList } from '../../navigation/AuthStack';
@@ -36,7 +36,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: t.bg }]}> 
+    <ScrollView style={{ flex:1 }} contentContainerStyle={[styles.container, { backgroundColor: t.bg, minHeight:'100%', paddingBottom:40 }]}> 
       <View style={styles.logoFixed}>
         <Image source={require('../../assets/plant/logo.png')} style={styles.logo} resizeMode='contain' />
       </View>
@@ -62,12 +62,12 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}><Text style={[styles.link, { color: t.textDim }]}>Ya tengo cuenta</Text></TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, justifyContent: 'center', paddingTop: 240 },
+  container: { flexGrow: 1, padding: 20, justifyContent: 'center', paddingTop: 240 },
   logoFixed: { position:'absolute', top: 56, left:0, right:0, alignItems:'center' },
   logo: { width: 160, height: 160 },
   title: { fontSize: 28, marginBottom: 8, fontFamily: 'Inter_800ExtraBold', textAlign:'center' },

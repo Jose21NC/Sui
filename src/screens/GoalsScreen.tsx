@@ -140,7 +140,7 @@ const GoalsScreen: React.FC = () => {
               <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
                 <Button title={'Marcar como hecha'} onPress={goals.completeToday} variant={'primary'} />
                 <TouchableOpacity onPress={() => onExplainTask(todayTask.description)} style={{ paddingHorizontal: 12, paddingVertical: 10, borderRadius: 10, borderWidth: 1, borderColor: t.border }}>
-                  <Text style={{ color: t.text }}>¿Qué es esto?</Text>
+                  <Text style={{ color: t.text }}>¿Cómo lo hago?</Text>
                 </TouchableOpacity>
               </View>
             </>

@@ -12,6 +12,23 @@ import { View, Text } from 'react-native';
 import { AuthProvider } from './src/context/AuthContext';
 import { GoalsProvider } from './src/context/GoalsContext';
 
+const MissingKeyBanner = () => {
+  const hasKey = !!(typeof process !== 'undefined' && (process as any).env && (process as any).env.EXPO_PUBLIC_GEMINI_API_KEY);
+  if (hasKey) return null;
+  return (
+    <View style={{
+      position: 'absolute', top: 0, left: 0, right: 0,
+      paddingVertical: 8, paddingHorizontal: 12,
+      backgroundColor: '#ffcc00', zIndex: 999,
+      borderBottomWidth: 1, borderBottomColor: '#e0b800'
+    }}>
+      <Text style={{ color: '#000', fontFamily: 'Inter_600SemiBold', fontSize: 12 }}>
+        Sin API key de Gemini (EXPO_PUBLIC_GEMINI_API_KEY). Modo demo activo.
+      </Text>
+    </View>
+  );
+};
+
 export default function App() {
   const [loaded] = useFonts({ Inter_400Regular, Inter_600SemiBold, Inter_800ExtraBold });
 
@@ -26,7 +43,10 @@ export default function App() {
           <GoalsProvider>
             <AppFlowProvider>
               <NavigationContainer>
-                <RootNavigator />
+                <View style={{ flex: 1 }}>
+                  <MissingKeyBanner />
+                  <RootNavigator />
+                </View>
                 <StatusBar style="light" />
               </NavigationContainer>
             </AppFlowProvider>
